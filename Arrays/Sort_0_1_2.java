@@ -1,9 +1,6 @@
 package Arrays;
 
-//medium
-
-//brute force-> rebuild the array /list
-
+import java.util.Arrays;
 import java.util.ArrayList;
 
 //optimal-> Dutch National flag algo

@@ -39,5 +39,7 @@ public class cycleBfs {
             int node = q.peek().first;
             int par = q.peek().second;
         }
+        //could be wrong
+        return false;
     }
 }
