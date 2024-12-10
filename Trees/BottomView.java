@@ -1,0 +1,107 @@
+package Trees;
+
+import kotlin.Pair;
+
+import java.util.*;
+
+// Node structure for the binary tree
+class BNode {
+    int data;
+    BNode left;
+    BNode right;
+
+    // Constructor to initialize
+    // the node with a value
+    public BNode(int val) {
+        data = val;
+        left = null;
+        right = null;
+    }
+}
+
+public class BottomView {
+    // Function to return the
+    // bottom view of the binary tree
+    public List<Integer> bottomView(BNode root) {
+        // List to store the result
+        List<Integer> ans = new ArrayList<>();
+
+        // Check if the tree is empty
+        if(root == null) {
+            return ans;
+        }
+
+        // Map to store the bottom view nodes
+        // based on their vertical positions
+        Map<Integer, Integer> mpp = new TreeMap<>();
+
+        // Queue for BFS traversal, each
+        // element is a pair containing node
+        // and its vertical position
+        Queue<Pair<BNode, Integer>> q = new LinkedList<>();
+
+        // Push the root node with its vertical
+        // position (0) into the queue
+        q.add(new Pair<>(root, 0));
+
+        // BFS traversal
+        while(!q.isEmpty()) {
+            // Retrieve the node and its vertical
+            // position from the front of the queue
+            Pair<BNode, Integer> pair = q.poll();
+            BNode node = pair.getFirst();
+            int line = pair.getSecond();
+
+            // Update the map with the node's data
+            // for the current vertical position
+            mpp.put(line, node.data);
+
+            // Process left child
+            if(node.left != null) {
+                // Push the left child with a decreased
+                // vertical position into the queue
+                q.add(new Pair<>(node.left, line - 1));
+            }
+
+            // Process right child
+            if(node.right != null) {
+                // Push the right child with an increased
+                // vertical position into the queue
+                q.add(new Pair<>(node.right, line + 1));
+            }
+        }
+
+        // Transfer values from the
+        // map to the result list
+        for(Map.Entry<Integer, Integer> entry : mpp.entrySet()) {
+            ans.add(entry.getValue());
+        }
+
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        BNode root = new BNode(1);
+        root.left = new BNode(2);
+        root.left.left = new BNode(4);
+        root.left.right = new BNode(10);
+        root.left.left.right = new BNode(5);
+        root.left.left.right.right = new BNode(6);
+        root.right = new BNode(3);
+        root.right.right = new BNode(10);
+        root.right.left = new BNode(9);
+
+        BottomView solution = new BottomView();
+
+        // Get the Bottom View traversal
+        List<Integer> bottomView = solution.bottomView(root);
+
+        // Print the result
+        System.out.println("Bottom View Traversal: ");
+        for(int node : bottomView) {
+            System.out.print(node + " ");
+        }
+    }
+}
+
